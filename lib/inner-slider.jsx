@@ -28,9 +28,7 @@ var Slider = React.createClass({
     var dots = [];
     if (this.props.dots === true && this.state.slideCount > this.props.slidesToShow) {
       for (var i=0; i <= this.getDotCount(); i += 1) {
-        var className = classnames({
-          'slick-active': (this.state.currentSlide === i * this.props.slidesToScroll)
-        });
+        var className = this.state.currentSlide === i * this.props.slidesToScroll ? 'slick-active' : '';
         dotOptions = {
           message: 'index',
           index: i
@@ -52,7 +50,7 @@ var Slider = React.createClass({
     var preCloneSlides = [];
     var postCloneSlides = [];
     var count = React.Children.count(this.props.children);
-    React.Children.forEach(this.props.children, function (child, index) {
+    React.Children.forEach(this.props.children, (child, index) => {
       var infiniteCount;
       slides.push(cloneWithProps(child, {
         key: index,
@@ -88,7 +86,7 @@ var Slider = React.createClass({
           }));
         }
       }
-    }.bind(this));
+    });
 
     return preCloneSlides.concat(slides, postCloneSlides);
   },
@@ -119,8 +117,7 @@ var Slider = React.createClass({
             nextClasses['slick-disabled'] = true;
             nextHandler = null;
           }
-        }else
-        {
+        } else {
           if (this.state.currentSlide >= (this.state.slideCount - this.props.slidesToShow)) {
             nextClasses['slick-disabled'] = true;
             nextHandler = null;
@@ -141,7 +138,7 @@ var Slider = React.createClass({
       if (this.props.prevArrow) {
         prevArrow = <this.props.prevArrow {...prevArrowProps} />;
       } else {
-        prevArrow = <button type="button" {...prevArrowProps}> Previous</button>;
+        prevArrow = <button key='0' type="button" {...prevArrowProps}> Previous</button>;
       }
 
       var nextArrowProps = {
@@ -157,7 +154,7 @@ var Slider = React.createClass({
       if (this.props.nextArrow) {
         nextArrow = <this.props.nextArrow {...nextArrowProps} />;
       } else {
-        nextArrow = <button type="button" {...nextArrowProps}> Next</button>;
+        nextArrow = <button key='1' type="button" {...nextArrowProps}> Next</button>;
       }
 
       return [prevArrow, nextArrow];
@@ -166,21 +163,21 @@ var Slider = React.createClass({
     }
   },
   render: function () {
-    var className = classnames('slick-initialized', 'slick-slider', this.props.className);
+    var className = `slick-initialized slick-slider ${this.props.className}`;
     return (
       <div className={className} >
         <div
-          ref='list'
-          className='slick-list'
-          style={this.getListStyle()}
-          onMouseDown={this.swipeStart}
-          onMouseMove={this.state.dragging ? this.swipeMove: null}
-          onMouseUp={this.swipeEnd}
-          onMouseLeave={this.state.dragging ? this.swipeEnd: null}
-          onTouchStart={this.swipeStart}
-          onTouchMove={this.state.dragging ? this.swipeMove: null}
-          onTouchEnd={this.swipeEnd}
-          onTouchCancel={this.state.dragging ? this.swipeEnd: null}>
+          ref = 'list'
+          className = 'slick-list'
+          style = {this.getListStyle()}
+          onMouseDown = {this.swipeStart}
+          onMouseMove = {this.state.dragging ? this.swipeMove: null}
+          onMouseUp = {this.swipeEnd}
+          onMouseLeave = {this.state.dragging ? this.swipeEnd: null}
+          onTouchStart = {this.swipeStart}
+          onTouchMove = {this.state.dragging ? this.swipeMove: null}
+          onTouchEnd = {this.swipeEnd}
+          onTouchCancel = {this.state.dragging ? this.swipeEnd: null}>
           {this.renderTrack()}
         </div>
         {this.renderArrows()}
