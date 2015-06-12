@@ -12,8 +12,12 @@ export var PrevArrow = React.createClass({
   render: function () {
     var prevClasses = {'slick-prev': true};
     var prevHandler = this.clickHandler.bind(this, {message: 'previous'});
+    var currentSlide = this.props.currentSlide;
+    var slideCount = this.props.slideCount;
+    var slidesToShow = this.props.slidesToShow;
+    var infinite = this.props.infinite;
 
-    if (!this.props.infinite && (this.props.currentSlide === 0 || this.props.slideCount <= this.props.slidesToShow)) {
+    if (infinite === false && (currentSlide === 0 || slideCount <= slidesToShow)) {
       prevClasses['slick-disabled'] = true;
       prevHandler = null;
     }

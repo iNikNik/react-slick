@@ -40,6 +40,11 @@ var getSlideStyle = function (spec) {
     style.WebkitTransition = 'opacity ' + spec.speed + 'ms ' + spec.cssEase;
   }
 
+  if (spec.vertical) {
+    style.float = 'none';
+    style.overflow = 'auto';
+  }
+
   return style;
 };
 

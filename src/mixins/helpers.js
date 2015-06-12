@@ -8,9 +8,38 @@ import assign from 'object-assign';
 var helpers = {
   initialize: function (props) {
     var slideCount = React.Children.count(props.children);
-    var listWidth = this.refs.list.getDOMNode().getBoundingClientRect().width;
-    var trackWidth = this.refs.track.getDOMNode().getBoundingClientRect().width;
-    var slideWidth = this.getDOMNode().getBoundingClientRect().width/props.slidesToShow;
+    var listWidth, trackWidth, slideWidth;
+
+    if (props.vertical) {
+      // here the third child is selected because the 1st and 2nd slides are not rendered
+      // to their full size.
+      slideWidth = this.refs.track.getDOMNode().children[2].getBoundingClientRect().width;
+      listWidth = slideWidth;
+      trackWidth = slideWidth;
+
+      var slideHeight = this.refs.track.getDOMNode().children[2].getBoundingClientRect().height;
+      var listHeight = slideHeight * props.slidesToShow;
+      var trackHeight = slideHeight * this.state.slideCount;
+
+      this.setState({
+        slideCount: slideCount,
+        slideWidth: slideWidth,
+        listWidth: listWidth,
+        trackWidth: trackWidth,
+        slideHeight: slideHeight,
+        listHeight: listHeight,
+        trackHeight: trackHeight,
+        currentSlide: props.initialSlide
+      }, function () {
+
+      });
+
+      return;
+    }
+
+    listWidth = this.refs.list.getDOMNode().getBoundingClientRect().width;
+    trackWidth = this.refs.track.getDOMNode().getBoundingClientRect().width;
+    slideWidth = this.getDOMNode().getBoundingClientRect().width/props.slidesToShow;
 
     this.setState({
       slideCount: slideCount,
@@ -34,6 +63,13 @@ var helpers = {
     });
   },
   adaptHeight: function () {
+    if (this.props.vertical) {
+      var listHeight = this.refs.list.getDOMNode().getBoundingClientRect().height;
+      if (listHeight !== this.state.listHeight) {
+        this.refs.list.getDOMNode().style.height = this.state.listHeight + 'px';
+      }
+    }
+
     if (this.props.adaptiveHeight) {
       var selector = '[data-index="' + this.state.currentSlide +'"]';
       if (this.refs.list) {

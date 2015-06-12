@@ -62,6 +62,7 @@ export var InnerSlider = React.createClass({
       slideWidth: this.state.slideWidth,
       slidesToShow: this.props.slidesToShow,
       trackStyle: this.state.trackStyle,
+      vertical: this.props.vertical,
       variableWidth: this.props.variableWidth
     };
 
@@ -98,19 +99,15 @@ export var InnerSlider = React.createClass({
       nextArrow = (<NextArrow {...arrowProps} />);
     }
 
+    // if (this.props.vertical) {
+    //   className += ' slide-vertical';
+    // }
+
     return (
-      <div className={className}>
+      <div className={className + ' slide-vertical' }>
         <div
           ref='list'
-          className="slick-list"
-          onMouseDown={this.swipeStart}
-          onMouseMove={this.state.dragging ? this.swipeMove: null}
-          onMouseUp={this.swipeEnd}
-          onMouseLeave={this.state.dragging ? this.swipeEnd: null}
-          onTouchStart={this.swipeStart}
-          onTouchMove={this.state.dragging ? this.swipeMove: null}
-          onTouchEnd={this.swipeEnd}
-          onTouchCancel={this.state.dragging ? this.swipeEnd: null}>
+          className={'slick-list' }>
           <Track ref='track' {...trackProps}>
             {this.props.children}
           </Track>

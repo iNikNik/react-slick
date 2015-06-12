@@ -8,7 +8,7 @@ var checkSpecKeys = function (spec, keysArray) {
 
 export var getTrackCSS = function(spec) {
   checkSpecKeys(spec, [
-    'left', 'variableWidth', 'slideCount', 'slidesToShow', 'slideWidth'
+    'variableWidth', 'slideCount', 'slidesToShow', 'slideWidth'
   ]);
 
   var trackWidth;
@@ -29,6 +29,12 @@ export var getTrackCSS = function(spec) {
     transition: '',
     WebkitTransition: ''
   };
+
+  if (spec.vertical) {
+    style.width = spec.trackWidth;
+    style.height = (spec.slideCount + 2*(spec.slidesToShow + 1)) * spec.slideWidth;
+  }
+
 
   return style;
 };
